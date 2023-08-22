@@ -4,8 +4,8 @@ import { Modal } from "./modal";
 import { useUpFile } from "@/hooks/useUpFile";
 import { FileMeta } from "@/types/file";
 
-export function UpFileModal(p: { file: File; gateway: string; onSuccess: () => void; onClose?: () => void }) {
-  const { file, gateway, onClose, onSuccess } = p;
+export function UpFileModal(p: { file: File; onSuccess: () => void; onClose?: () => void }) {
+  const { file, onClose, onSuccess } = p;
   const [meta, setInput] = useSetState<FileMeta>({
     reportCode: "",
     sampleType: "",
@@ -14,7 +14,7 @@ export function UpFileModal(p: { file: File; gateway: string; onSuccess: () => v
   });
   const { reportCode, sampleType, customerCode, clinicCode } = meta;
   const disableOk = !reportCode || !sampleType || !customerCode || !clinicCode;
-  const { upFile, abort, loading, progress } = useUpFile(gateway);
+  const { upFile, abort, loading, progress } = useUpFile();
   return (
     <Modal
       title="文件上传"

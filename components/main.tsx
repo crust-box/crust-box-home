@@ -44,8 +44,6 @@ export default function Main() {
   const isLoading = isLoadingSize || isLoadingFiles;
 
   const copy = useCopy();
-  const { data: gatewayList } = useSWR<Gateway[]>("/auth/gateway/list", authGetResData);
-  const gateway = gatewayList?.find(() => true)?.host;
   const inputFile = useRef<HTMLInputElement>(null);
   const [showUpModal, setShowUpModal] = useState<File>();
   const toast = useToast();
@@ -195,10 +193,9 @@ export default function Main() {
         </div>
       )}
 
-      {showUpModal && gateway && (
+      {showUpModal && (
         <UpFileModal
           file={showUpModal}
-          gateway={gateway}
           onClose={() => setShowUpModal(undefined)}
           onSuccess={() => {
             refreshAll();

@@ -22,7 +22,6 @@ export const useLogined = create<{
 }));
 
 export function downUrl(f: ListFile) {
-  const domain = f.host.replace("https://", "");
-  const uuid = useLogined.getState().logined?.uuid;
-  return `https://${uuid}.${domain}/ipfs/${f.cid}`;
+  const base = f.meta?.gateway || "https://ipfs.io";
+  return `${base}/ipfs/${f.cid}`;
 }

@@ -4,6 +4,7 @@ export type FileMeta = {
   sampleType: string;
   customerCode: string;
   clinicCode: string;
+  gateway?: string;
 };
 
 export type ListFile = {
@@ -13,8 +14,6 @@ export type ListFile = {
   fileSize: number;
   fileType: string;
   name: string;
-  host: string;
-  valid: number;
   meta?: FileMeta;
 };
 
