@@ -53,7 +53,7 @@ export function UpFileModal(p: { file: File; onSuccess: () => void; onClose?: ()
       <div className="w-full px-5 mt-5">
         {loading ? (
           <div className="w-full py-5">
-            <progress className="progress progress-success w-full" max={100} value={progress}></progress>
+            <progress className="progress progress-success w-full" max={1} value={progress}></progress>
           </div>
         ) : (
           <button

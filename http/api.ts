@@ -1,6 +1,7 @@
 import env from "@/env";
 import { useLogined } from "@/hooks/useLogined";
 import { Logined } from "@/types/common";
+import { FileMeta } from "@/types/file";
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import useSwr from "swr";
 export const useSWR = useSwr;
@@ -43,7 +44,7 @@ export async function login(name: string, password: string) {
   return getResData(res);
 }
 
-export async function psaPin(cid: string, name: string, size: number) {
+export async function psaPin(cid: string, name: string, size: number, meta: FileMeta) {
   await maxio.post("/psa/pin", { cid, name, size: size.toFixed(0) }, authConfig());
 }
 

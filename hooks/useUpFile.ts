@@ -25,12 +25,7 @@ const gateways: GatewayType[] = [
   },
 ];
 
-async function tryToUpload(
-  file: File,
-  meta: FileMeta,
-  abort: AbortController,
-  onProgress: (p: number) => void
-): Promise<{ Hash: string; Name: string }> {
+async function tryToUpload(file: File, abort: AbortController, onProgress: (p: number) => void) {
   let progress = 0;
   const upload = async (gateway: GatewayType, timeout: number = 4000) => {
     let event: AxiosProgressEvent;
@@ -40,19 +35,20 @@ async function tryToUpload(
       }
     }, timeout);
     const form = new FormData();
-    meta.gateway = gateway.up;
+
     form.append("file", file);
-    form.append("meta", JSON.stringify(meta));
     const res = await axios.post<{ Hash: string; Name: string }>(`${gateway.up}/api/v0/add?pin=true`, form, {
       ...authConfig(),
       onUploadProgress(e) {
         event = e;
-        onProgress(Math.max(e.progress as number, progress));
-        progress = e.progress as number;
+        const _progress = e.total ? e.loaded / e.total : 0;
+        progress = Math.max(_progress, progress);
+        console.info("progress:", progress);
+        onProgress(progress);
       },
       signal: abort.signal,
     });
-    return res.data;
+    return { ...res.data, gateway: gateway.up };
   };
   let error;
   for (const gateway of gateways) {
@@ -77,9 +73,10 @@ export function useUpFile() {
     setProgress(0);
     try {
       // upload
-      const info = await tryToUpload(file, meta, abort.current, setProgress);
+      const info = await tryToUpload(file, abort.current, setProgress);
       // pin
-      await psaPin(info.Hash, info.Name, file.size);
+      meta.gateway = info.gateway;
+      await psaPin(info.Hash, info.Name, file.size, meta);
       return true;
     } catch (error) {
       toast.show({ type: "error", msg: getErrorMsg(error) });
