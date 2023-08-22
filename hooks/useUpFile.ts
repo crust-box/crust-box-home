@@ -4,26 +4,7 @@ import axios, { AxiosProgressEvent } from "axios";
 import { useRef, useState } from "react";
 import { useToast } from "./toast";
 import { getErrorMsg } from "@/utils/tools";
-
-export type GatewayType = { up: string; down?: string | string[] };
-
-const gateways: GatewayType[] = [
-  {
-    up: "https://gw.crustfiles.net",
-  },
-  {
-    up: "https://gw.smallwolf.me",
-  },
-  {
-    up: "https://crust.fans",
-  },
-  {
-    up: "https://crustgateway.com",
-  },
-  {
-    up: "https://crustgateway.online",
-  },
-];
+import env,{ GatewayType } from "@/env";
 
 async function tryToUpload(file: File, abort: AbortController, onProgress: (p: number) => void) {
   let progress = 0;
@@ -51,7 +32,7 @@ async function tryToUpload(file: File, abort: AbortController, onProgress: (p: n
     return { ...res.data, gateway: gateway.up };
   };
   let error;
-  for (const gateway of gateways) {
+  for (const gateway of env.gateways) {
     try {
       const res = await upload(gateway);
       return res;

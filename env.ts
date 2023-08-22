@@ -1,9 +1,31 @@
 // @ts-ignore
 const isBeta = true;
 
-const baseUrl = isBeta ? "https://beta-api.baitech-ipfs.net" : "https://api.baitech-ipfs.net";
+const baseUrl = "https://api.crustbox.decoo.io";
+
+export type GatewayType = { up: string; down?: string | string[] };
+
+const gateways: GatewayType[] = [
+  {
+    up: "https://gw.crustfiles.net",
+    down: "https://crustipfs.tech",
+  },
+  {
+    up: "https://gw.smallwolf.me",
+  },
+  {
+    up: "https://crust.fans",
+  },
+  {
+    up: "https://crustgateway.com",
+  },
+  {
+    up: "https://crustgateway.online",
+  },
+];
 
 export default {
   isBeta,
   baseUrl,
+  gateways,
 };

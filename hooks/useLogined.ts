@@ -1,3 +1,4 @@
+import env from "@/env";
 import { Logined } from "@/types/common";
 import { ListFile } from "@/types/file";
 import { tryRun } from "@/utils/tools";
@@ -22,6 +23,9 @@ export const useLogined = create<{
 }));
 
 export function downUrl(f: ListFile) {
-  const base = f.meta?.gateway || "https://ipfs.io";
+  const gate = env.gateways.find((item) => item.up === f.meta?.gateway);
+  const gateBase =
+    typeof gate?.down !== "undefined" ? (typeof gate.down === "string" ? gate.down : gate.down[0]) : undefined;
+  const base = gateBase || "https://ipfs.io";
   return `${base}/ipfs/${f.cid}`;
 }
