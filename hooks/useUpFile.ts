@@ -43,7 +43,7 @@ async function tryToUpload(
     meta.gateway = gateway.up;
     form.append("file", file);
     form.append("meta", JSON.stringify(meta));
-    const res = await axios.post<{ Hash: string; Name: string }>(`${gateway}/api/v0/add?pin=true`, form, {
+    const res = await axios.post<{ Hash: string; Name: string }>(`${gateway.up}/api/v0/add?pin=true`, form, {
       ...authConfig(),
       onUploadProgress(e) {
         event = e;
@@ -79,7 +79,7 @@ export function useUpFile() {
       // upload
       const info = await tryToUpload(file, meta, abort.current, setProgress);
       // pin
-      await psaPin(info.Hash, info.Name);
+      await psaPin(info.Hash, info.Name, file.size);
       return true;
     } catch (error) {
       toast.show({ type: "error", msg: getErrorMsg(error) });

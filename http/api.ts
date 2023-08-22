@@ -43,8 +43,8 @@ export async function login(name: string, password: string) {
   return getResData(res);
 }
 
-export async function psaPin(cid: string, name: string) {
-  await maxio.post("/psa/pin", { cid, name }, authConfig());
+export async function psaPin(cid: string, name: string, size: number) {
+  await maxio.post("/psa/pin", { cid, name, size: size.toFixed(0) }, authConfig());
 }
 
 export async function deleteFile(id: number) {
