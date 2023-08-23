@@ -49,5 +49,5 @@ export async function psaPin(cid: string, name: string, size: number, meta: File
 }
 
 export async function deleteFile(id: number) {
-  await maxio.post("/auth/file/delete", { id }, authConfig());
+  await maxio.post(`/auth/${id}/delete`, {}, authConfig());
 }
