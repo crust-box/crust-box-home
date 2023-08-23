@@ -2,6 +2,7 @@
 const isBeta = true;
 
 const baseUrl = "https://api.crustbox.decoo.io";
+// const baseUrl = "http://localhost:3000";
 
 export type GatewayType = { up: string; down?: string | string[] };
 
