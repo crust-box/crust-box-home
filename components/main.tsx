@@ -24,7 +24,7 @@ function getPdfFile(files: File[] | FileList | null) {
 }
 
 export default function Main() {
-  const { data: user } = useUser();
+  const { data: user, mutate: refreshUser } = useUser();
   const [pageNum, setPageNum] = useState(1);
   const {
     data: size,
@@ -37,6 +37,7 @@ export default function Main() {
     isLoading: isLoadingFiles,
   } = useSWR<ListFile[]>(`/auth/file/list?pageSize=${pageSize}&pageNum=${pageNum}`, authGetResData);
   const refreshAll = () => {
+    refreshUser();
     refreshSize();
     refreshFiles();
     setPageNum(1);
